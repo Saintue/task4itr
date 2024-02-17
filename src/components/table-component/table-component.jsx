@@ -10,12 +10,15 @@ export function TableComponent() {
     let checkboxes = document.getElementsByName('userCheckbox');
     checkboxes.forEach(el => (el.checked = !el.checked));
   }
-  let stringToCheck = localStorage.getItem('currentUser')
-  let curUserToCheck = state.find(el=> el.email === stringToCheck.replace(/^"(.*)"$/, '$1'))
-  if (curUserToCheck.status === "false"){
-    localStorage.setItem('currentUser', JSON.stringify('none'))
-    window.location.reload();
-  }
+  try {
+    let stringToCheck = localStorage.getItem('currentUser')
+    let curUserToCheck = state.find(el => el.email === stringToCheck.replace(/^"(.*)"$/, '$1'))
+    if (curUserToCheck.status === "false") {
+      localStorage.setItem('currentUser', JSON.stringify('none'))
+      window.location.reload();
+    }
+  } catch (e){
+    console.log(e)}
   async function updateUsers(type) {
     const usersToUpdate = document.getElementsByName('userCheckbox');
     let res = [];
