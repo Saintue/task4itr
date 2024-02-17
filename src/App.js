@@ -5,9 +5,14 @@ import {Component} from "react";
 export let isLoggedIn = localStorage.getItem('currentUser')
 
 export class App extends Component {
-
-
+    static init(){
+        if (isLoggedIn === null) {
+            localStorage.setItem('currentUser', JSON.stringify('none'));
+            isLoggedIn = `"none"`
+        }
+    }
     render() {
+        App.init()
         return isLoggedIn === `"none"` ? (
           <div className="App bg-light.bg-gradient">
             <HeaderComponent></HeaderComponent>
@@ -19,6 +24,7 @@ export class App extends Component {
           </div>
         ) : (
           <div className="App bg-light.bg-gradient">
+              {console.log(isLoggedIn)}
             <HeaderComponent></HeaderComponent>
             <TableComponent></TableComponent>
           </div>

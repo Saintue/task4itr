@@ -3,8 +3,6 @@ import { useReducer } from 'react';
 import reducer from '../../Reducer';
 import './table-component.css';
 export let initUsers = await Posts.getUsers();
-let stringToCheck = localStorage.getItem('currentUser')
-let curUserToCheck
 
 export function TableComponent() {
   const [state, dispatch] = useReducer(reducer, initUsers);
@@ -12,12 +10,6 @@ export function TableComponent() {
     let checkboxes = document.getElementsByName('userCheckbox');
     checkboxes.forEach(el => (el.checked = !el.checked));
   }
-
-    curUserToCheck = state.find(el => el.email === stringToCheck.replace(/^"(.*)"$/, '$1'))
-    if (curUserToCheck.status === "false") {
-      localStorage.setItem('currentUser', JSON.stringify('none'))
-      window.location.reload();
-    }
 
   async function updateUsers(type) {
     const usersToUpdate = document.getElementsByName('userCheckbox');
