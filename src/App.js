@@ -3,13 +3,13 @@ import './App.css';
 import {TableComponent} from "./components/table-component/table-component";
 import {Component} from "react";
 export let isLoggedIn = localStorage.getItem('currentUser')
-
 export class App extends Component {
     static init(){
         if (isLoggedIn === null) {
             localStorage.setItem('currentUser', JSON.stringify('none'));
             isLoggedIn = `"none"`
         }
+
     }
     render() {
         App.init()
