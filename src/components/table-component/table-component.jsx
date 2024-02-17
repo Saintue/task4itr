@@ -2,7 +2,6 @@ import { Posts } from '../posts/posts';
 import { useReducer } from 'react';
 import reducer from '../../Reducer';
 import './table-component.css';
-
 export let initUsers = await Posts.getUsers();
 
 export function TableComponent() {
@@ -11,7 +10,13 @@ export function TableComponent() {
     let checkboxes = document.getElementsByName('userCheckbox');
     checkboxes.forEach(el => (el.checked = !el.checked));
   }
-  function updateUsers(type) {
+  let stringToCheck = localStorage.getItem('currentUser')
+  let curUserToCheck = state.find(el=> el.email === stringToCheck.replace(/^"(.*)"$/, '$1'))
+  if (curUserToCheck.status === "false"){
+    localStorage.setItem('currentUser', JSON.stringify('none'))
+    window.location.reload();
+  }
+  async function updateUsers(type) {
     const usersToUpdate = document.getElementsByName('userCheckbox');
     let res = [];
     console.log(res);
@@ -20,11 +25,12 @@ export function TableComponent() {
         res.push(state.find(el => el._id === usersToUpdate[i].value));
     }
     console.log(res);
-    console.log('oykeeeei');
+
 
     switch (type) {
       case 'deletion':
-        Posts.deleteUsers(res);
+        let deleteStatus = await Posts.deleteUsers(res);
+        console.log(deleteStatus)
         dispatch({
           type: 'update',
           payload: res,
@@ -34,7 +40,8 @@ export function TableComponent() {
         }
         break;
       case 'block':
-        Posts.updateUsers(res, 'block');
+        let blockStatus = await Posts.updateUsers(res, 'block');
+        console.log(blockStatus)
         dispatch({
           type: 'block',
           payload: res,
@@ -44,7 +51,8 @@ export function TableComponent() {
         }
         break;
       case 'unBlock':
-        Posts.updateUsers(res, 'unBlock');
+       let unBlockStatus = await Posts.updateUsers(res, 'unBlock');
+       console.log(unBlockStatus)
         dispatch({
           type: 'unBlock',
           payload: res,

@@ -5,7 +5,6 @@ export default function reducer(state, acton) {
       for (let i = 0; i < acton.payload.length; i++) {
         ids.push(acton.payload[i]._id);
       }
-
       let usersToRemove = state.filter(el => ids.includes(el._id));
       if (
         usersToRemove.find(
